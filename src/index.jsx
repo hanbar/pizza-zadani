@@ -1,77 +1,79 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import ToppingsSelect from './components/ToppingsSelect';
-import './style.css';
+import React, { useState } from "react";
+import { createRoot } from "react-dom/client";
+import ToppingsSelect from "./components/ToppingsSelect";
+import Header from "./components/Header";
+import { PrefsContext } from "./prefs-context";
+import "./style.css";
 
 const toppings = [
   {
-    name: 'Pepperoni',
+    name: "Pepperoni",
     price: 1,
     vegan: false,
     selected: false,
   },
   {
-    name: 'Mushroom',
+    name: "Mushroom",
     price: 0.35,
     vegan: true,
     selected: false,
   },
   {
-    name: 'Extra cheese',
+    name: "Extra cheese",
     price: 0.5,
     vegan: false,
     selected: false,
   },
   {
-    name: 'Sausage',
+    name: "Sausage",
     price: 0.8,
     vegan: false,
     selected: false,
   },
   {
-    name: 'Onion',
+    name: "Onion",
     price: 0.25,
     vegan: true,
     selected: false,
   },
   {
-    name: 'Black olives',
+    name: "Black olives",
     price: 0.65,
     vegan: true,
     selected: false,
   },
   {
-    name: 'Green pepper',
+    name: "Green pepper",
     price: 0.55,
     vegan: true,
     selected: false,
   },
   {
-    name: 'Fresh garlic',
+    name: "Fresh garlic",
     price: 0.1,
     vegan: true,
     selected: false,
   },
   {
-    name: 'Tomato',
+    name: "Tomato",
     price: 0.5,
     vegan: true,
     selected: false,
   },
   {
-    name: 'Fresh basil',
+    name: "Fresh basil",
     price: 0.15,
     vegan: true,
     selected: false,
   },
   {
-    name: 'Pineapple',
+    name: "Pineapple",
     price: 0.7,
     vegan: true,
     selected: false,
   },
   {
-    name: 'Prosciutto',
+    name: "Prosciutto",
     price: 1.2,
     vegan: false,
     selected: false,
@@ -79,19 +81,22 @@ const toppings = [
 ];
 
 const App = () => {
+  const [veganOnly, setVeganOnly] = useState(true);
+
+  const setVegan = () => {
+    setVeganOnly((prevState) => !prevState);
+  };
+
   return (
-    <div className="container">
-      <header>
-        <div className="pizza" />
-        <h1>Build your own pizza</h1>
-      </header>
-      <main>
-        <ToppingsSelect toppings={toppings} />
-      </main>
-    </div>
+    <PrefsContext.Provider value={{ veganOnly, setVegan }}>
+      <div className="container">
+        <Header />
+        <main>
+          <ToppingsSelect toppings={toppings} />
+        </main>
+      </div>
+    </PrefsContext.Provider>
   );
 };
 
-createRoot(
-  document.querySelector('#app'),
-).render(<App />);
+createRoot(document.querySelector("#app")).render(<App />);
